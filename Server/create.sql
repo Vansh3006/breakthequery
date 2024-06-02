@@ -1,0 +1,8 @@
+CREATE TABLE QuizData (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name VARCHAR,
+    PCNumber VARCHAR,
+    SubmissionTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    TimeTaken FLOAT,
+    QuestionNumber INTEGER
+);

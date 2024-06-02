@@ -1,0 +1,55 @@
+{
+    "number":10,
+    "questions":[
+        {
+            "index":0,
+            "question":"Retreive (only) the names of all doctors who are Physicians.",
+            "answer_key":"SELECT Name FROM Doctor WHERE Specialization = 'Physician';"
+        },
+        {
+            "index":1,
+            "question":"Retreive the names of all conditions which lie in the 'Cardiovascular' or 'Chronic' category",
+            "answer_key":"SELECT Name FROM Condition WHERE Category IN ('Cardiovascular', 'Chronic');"
+        },
+        {
+            "index":2,
+            "question":"Retreive the names and addresses of all patients who live in Ratnagiri.",
+            "answer_key":"SELECT Name, Address FROM Patient WHERE Address LIKE '%Ratnagiri%';"
+        },
+        {
+            "index":3,
+            "question":"Retreive the names of all doctors who are affiliated with 'Shri Care Hospital'",
+            "answer_key":"SELECT D.Name FROM Doctor AS D JOIN Hospital AS H ON D.HospitalID = H.ID WHERE H.Name = 'Shri Care Hospital';"
+        },
+        {
+            "index":4,
+            "question":"Retreive the names of all patients with Gastritis",
+            "answer_key":"SELECT P.Name FROM Patient AS P JOIN Appointment AS A ON P.ID = A.PatientID JOIN Condition AS C ON A.ConditionID = C.ID WHERE C.Name = 'Gastritis';"
+        },
+        {
+            "index":5,
+            "question":"Retreive the names of all patients who had a cardiovascular condition and took treatment from Bhaktisiddhanta General Hospital.",
+            "answer_key":"SELECT DISTINCT P.Name FROM Patient AS P JOIN Appointment AS A ON P.ID = A.PatientID JOIN Condition AS C ON A.ConditionID = C.ID JOIN Doctor AS D ON A.DoctorID = D.ID JOIN Hospital AS H ON D.HospitalID = H.ID WHERE C.Category = 'Cardiovascular' AND H.Name = 'Bhaktisiddhanta General Hospital';"
+        },
+        {
+            "index":6,
+            "question":"Retreive the average Income of Doctors.",
+            "answer_key":"SELECT AVG(Income) FROM ( SELECT Sum(Fees) as Income FROM Appointment GROUP BY DoctorID );"
+        },
+        {
+            "index":7,
+            "question":"Retreive the name and total turnover of each pharmacy which has turnover greater than 1000.",
+            "answer_key":"SELECT P.Name AS PharmacyName, COALESCE(SUM(I.Amount), 0) AS TotalTurnover FROM Pharmacy AS P LEFT JOIN Invoice AS I ON P.ID = I.PharmacyID GROUP BY P.Name HAVING COALESCE(SUM(I.Amount), 0) > 1000;"
+        },
+        {
+            "index":8,
+            "question":"Calculate and Retreive condition name and average fee by condition spent by a patient for an appointment for Cardiovascular conditions.",
+            "answer_key":"SELECT C.Name AS ConditionName, AVG(A.Fees) AS AverageFeeForCondition FROM Appointment AS A JOIN Condition AS C ON A.ConditionID = C.ID WHERE C.Category = 'Cardiovascular' GROUP BY C.ID, C.Name; "
+        },
+        {
+            "index":9,
+            "question":"Retrieve the names of patients in Pune who have appointments for cardiovascular or chronic conditions at Bhaktisiddhanta General Hospital or Shri Care Hospital. Display the patient name, doctor name, hospital name, condition name, and the average fee for each condition.",
+            "answer_key":"SELECT P.Name AS PatientName, D.Name AS DoctorName, H.Name AS HospitalName, C.Name AS ConditionName, AVG(A.Fees) AS AverageFeeForCondition FROM Patient AS P JOIN Appointment AS A ON P.ID = A.PatientID JOIN Doctor AS D ON A.DoctorID = D.ID JOIN Hospital AS H ON D.HospitalID = H.ID JOIN Condition AS C ON A.ConditionID = C.ID WHERE H.Name IN ('Bhaktisiddhanta General Hospital', 'Shri Care Hospital') AND C.Category IN ('Cardiovascular', 'Chronic') AND P.Address LIKE '%Pune%' GROUP BY P.ID, D.ID, H.ID, C.ID; "
+        }
+    ]
+}
